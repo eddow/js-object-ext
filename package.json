@@ -15,6 +15,14 @@
 	},
 	"author": "fmdm",
 	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/eddow/js-object-ext.git"
+	},
+	"bugs": {
+		"url": "https://github.com/eddow/js-object-ext/issues"
+	},
+	"homepage": "https://github.com/eddow/js-object-ext#readme",
 	"devDependencies": {
 		"jsdoc-babel": "^0.4.0-alpha.0",
 		"source-map-loader": "^0.2.4",

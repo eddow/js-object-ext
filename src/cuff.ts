@@ -1,11 +1,11 @@
 /**
  * @module Cuff
  */
- interface OldSetter {
+ export interface OldSetter {
 	(v: any): void;
 	callback?: (v: any, scope: object, prop: string)=> boolean|void;
 }
-interface OldGetter {
+export interface OldGetter {
 	(): any;
 	callback?: (v: any, scope: object, prop: string)=> any;
 }

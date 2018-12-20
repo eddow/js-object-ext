@@ -1,6 +1,8 @@
-# js-ext-object
+[![npm](https://img.shields.io/npm/v/js-object-ext.svg)](https://www.npmjs.com/package/js-object-ext)
+# js-object-ext
 
 ### Quick intro
+There is a detailed [API documentation](https://rawcdn.githack.com/eddow/js-object-ext/master/docs/index.html) available.
 Here are functionalities I needed in many projects that I finally gathered in a library. There are few functionalitites though many can still be added. It's not rocket science but always useful.
 
 Things have been written so that the whole library can be used even if only one function is used and tree-shaking is used, only that function will be packed.

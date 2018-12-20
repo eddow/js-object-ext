@@ -6,6 +6,7 @@
  */
 export class InvalidPath extends Error {}
 
+/** @hidden */
 function recur(obj: any, path: string): any {
 	if(!obj || !path) return;
 	var keys = [], lvalue;
