@@ -1,0 +1,30 @@
+{
+  	"compilerOptions": {
+		"sourceMap": true,
+		"declaration": true,
+		"sourceRoot": ".",
+		"outDir": "../dist",
+		"inlineSources": true,
+		"strict": true,
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"target": "es5",
+		"lib": [
+			"dom",
+			"es5",
+			"es6",
+			"es2015.promise"
+		],
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "."
+	},
+	"exclude": [
+		"**/*.spec.ts",
+		"**/*.d.ts"
+	],
+	"include": [
+		"./**/*.ts"
+	]
+}
