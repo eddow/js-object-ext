@@ -1,4 +1,7 @@
 /**
+ * @module Path
+ */
+/**
  * Thrown when a path is not reachable - when the containing object does not exists.
  */
 export class InvalidPath extends Error {}

@@ -1,4 +1,7 @@
-interface OldSetter {
+/**
+ * @module Cuff
+ */
+ interface OldSetter {
 	(v: any): void;
 	callback?: (v: any, scope: object, prop: string)=> boolean|void;
 }

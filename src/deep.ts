@@ -1,4 +1,7 @@
 /**
+ * @module Deep
+ */
+/**
  * Deeply compare `Objects` even if their references are different
  * @param {any} x
  * @param {any} y
@@ -26,7 +29,7 @@ export function equals(x: any, y: any): boolean {
  * Deep copy `src` into `dst`.
  * Can be used for deep cloning
  */
-export function copy(src: any|any[], dst?: any|any[]): any {
+export function copy(src: any, dst?: any): any {
 	if(src instanceof Array) {
 		if(!(dst instanceof Array)) dst = [];
 		dst.splice(0, dst.length, ...src.map((x: any)=> copy(x)));

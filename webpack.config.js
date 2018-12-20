@@ -1,6 +1,7 @@
 var webpack = require("webpack"),
 	path = require("path"),
 	externals = require('webpack-node-externals'),
+	typedoc = require('typedoc-webpack-plugin'),
 	{default: DtsBundlePlugin} = require('webpack-dts-bundle');
 
 module.exports = {
@@ -22,7 +23,15 @@ module.exports = {
 			main: 'dist/index.d.ts',
 			out: 'js-object-ext.d.ts',
 			removeSource: true
-		})
+		}),
+		new typedoc({
+			name: 'js-object-ext',
+			out: '../docs',
+			mode: 'modules',
+    		target: 'es6',
+    		exclude: ['**/node_modules/**/*.*', '**/index.ts'],
+			includeDeclarations: true
+		}, './src')
 	],
 	externals: [
 		externals()
