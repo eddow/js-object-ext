@@ -40,7 +40,7 @@ export function onSet(obj: object, prop: string, cb?: (v: any, scope: object, pr
 }
 
 /**
- * Property `propA` of object `objA` is hand-cuffed with property `propB` of object `objB` - when one change, both change
+ * Property `propA` of object `objA` is hand-cuffed with property `propB` of object `objB` - when one changes, both change
  */
 export function cuff(objA: object, propA: string, objB: object, propB: string): void {
 	var oldSetA = onSet(objA, propA),
@@ -57,7 +57,7 @@ export function follow(objFr: {[prop: string]: any}, propFr: string, objFd: {[pr
 
 /**
  * Calls `cb` after getting the value each time the property `prop` of object `obj` is retrieved.
- * If `cb` returns a defined value, this value is retrieved instead of the originally retrieved value.
+ * If `cb` returns a defined value, this value is returned instead of the originally retrieved value.
  * @returns A function without `this` scope that sets the value of `obj[prop]` without calling `cb`
  */
 export function onGet(obj: object, prop: string, cb?: (v: any, scope: object, prop: string)=> any): OldGetter {

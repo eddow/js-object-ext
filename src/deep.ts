@@ -30,19 +30,25 @@ export function equals(x: any, y: any): boolean {
  * Can be used for deep cloning
  */
 export function copy(src: any, dst?: any): any {
+	return deepCopy(new Map(), src, dst);
+}
+ function deepCopy(begun: Map<any, any>, src: any, dst?: any): any {
+	 if(begun.has(src)) return begun.get(src);
 	if(src instanceof Array) {
 		if(!(dst instanceof Array)) dst = [];
-		dst.splice(0, dst.length, ...src.map((x: any)=> copy(x)));
+		begun.set(src, dst);
+		dst.splice(0, dst.length, ...src.map((x: any)=> deepCopy(begun, x)));
 		return dst;
 	}
 	if(!src || !src.constructor)
 		return src;
 	if(!dst || src.constructor !== dst.constructor)
 		dst = Object.create(src.constructor.prototype);
+	begun.set(src, dst);
 	for(let key of Object.getOwnPropertyNames(src)) {
 		let pDescr = Object.getOwnPropertyDescriptor(src, key)!;
 		if(!pDescr.get && !pDescr.set)
-			pDescr.value = copy(src[key], dst[key]);
+			pDescr.value = deepCopy(begun, src[key], dst[key]);
 		Object.defineProperty(dst, key, pDescr)
 
 	}

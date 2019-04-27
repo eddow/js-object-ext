@@ -64,6 +64,7 @@
 			<div class="tsd-panel tsd-typography">
 				<p><a href="https://www.npmjs.com/package/js-object-ext"><img src="https://img.shields.io/npm/v/js-object-ext.svg" alt="npm"></a></p>
 				<h1 id="js-object-ext">js-object-ext</h1>
+				<p>typescript and webpack compatible.</p>
 				<h3 id="quick-intro">Quick intro</h3>
 				<p>There is a detailed <a href="https://rawcdn.githack.com/eddow/js-object-ext/master/docs/index.html">API documentation</a> available.
 				Here are functionalities I needed in many projects that I finally gathered in a library. There are few functionalitites though many can still be added. It&#39;s not rocket science but always useful.</p>
@@ -78,13 +79,14 @@
 				<h3 id="copy">copy</h3>
 				<p>Deeply copy a source into a target. The result will be the target into which has been copied the source.</p>
 				<p>The copy operation stops when an object has to be copied into an object with a different constructor - the result will still be a cloned object but the target object will be unmodified.</p>
-				<p>Hemce, skipping the target argument will just return a deep clone of the source.</p>
+				<p>Hence, skipping the target argument will just return a deep clone of the source.</p>
 				<h2 id="path">Path</h2>
 				<p>Three functions, <code>get</code>, <code>set</code> and <code>del</code> take an object as a first argument and a <em>path</em> as a second argument. Only <code>set</code> takes a third argument for the value.</p>
 				<p>A useless example is <code>get(window, &#39;location.href&#39;)</code></p>
 				<p>The path specific characters are &#39;<code>.</code>&#39; along with &#39;<code>[</code>&#39; and &#39;<code>]</code>&#39; for numeric indexes. Note that <code>&#39;myArray[2]&#39;</code> is equivalent to <code>&#39;myArray.2&#39;</code></p>
 				<h2 id="cuff">Cuff</h2>
-				<p>These functions are shortcuts to bind callback to property-get and property-set of an object</p>
+				<p>These functions are shortcuts to bind callback to property-get and property-set of an object. The most usefull might be <code>onSet</code> and <code>onGet</code> who add a callback to an object&#39; property set/get respectively. Also <code>cuff</code> who takes two set of object/property name and make sure they are bound.</p>
+				<p>The main functionality are <code>onGet</code> and <code>onSet</code> that allowa adding a call-back on an object property get/set.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

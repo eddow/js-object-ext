@@ -21,8 +21,9 @@ function recur(obj: any, path: string): any {
 }
 
 /**
- * Set a value of an object considering its path - return true in case of successful affectation
+ * Set a value of an object considering its path
  * @throw InvalidPath
+ * @return `true` in case of successful affectation
  */
 export function set(obj: any, path: string, value: any): boolean {
 	var lv = recur(obj, path);
@@ -32,8 +33,9 @@ export function set(obj: any, path: string, value: any): boolean {
 }
 
 /**
- * Delete a value of an object considering its path - return true in case of successful affectation
+ * Delete a value of an object considering its path
  * @throw InvalidPath
+ * @return `true` in case of successful deletion
  */
 export function del(obj: any, path: string): boolean {
 	var lv = recur(obj, path);
@@ -43,8 +45,9 @@ export function del(obj: any, path: string): boolean {
 }
 
 /**
- * Get a value of an object considering its path - return `undefined` if a property was missing along the path
+ * Get a value of an object considering its path
  * @throw InvalidPath
+ * @return `undefined` if the property is missing or the queried value
  */
 export function get(obj: any, path: string): any {
 	var lv = recur(obj, path);
