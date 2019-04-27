@@ -1,6 +1,6 @@
 {
 	"name": "js-object-ext",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Provides high-level functionalities on JS objects",
 	"main": "dist/js-object-ext.js",
 	"ts:main": "src/index.ts",
