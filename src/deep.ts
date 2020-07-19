@@ -7,8 +7,11 @@
  * @param {any} y
  * @return Wheter `x` deeply equals `y`
  */
-export function equals(x: any, y: any): boolean {
-	if(x === y) return true;
+export function equals(x: any, y: any, onlyEnumerable: boolean = true): boolean {
+	return deepEquals(new Map(), x, y, onlyEnumerable);	
+}
+function deepEquals(begun: Map<any, any>, x: any, y: any, onlyEnumerable: boolean): boolean {
+	if(x === y || (begun.has(x) && begun.get(x) === y)) return true;
 	if(!x || !y || 'object'!== typeof x || 'object'!== typeof y ||
 		x.constructor !== y.constructor ||
 		x instanceof Function ||
@@ -19,10 +22,11 @@ export function equals(x: any, y: any): boolean {
 
 	if(x instanceof Date || y instanceof Date)
 		return x instanceof Date && y instanceof Date && x.valueOf() == y.valueOf();
-
-	var p = Object.getOwnPropertyNames(x);
-	return Object.getOwnPropertyNames(y).every(function (i) { return !~p.indexOf(i); }) &&
-			p.every(function (i) { return equals(x[i], y[i]); });
+	var keyFunc = onlyEnumerable? Object.keys : Object.getOwnPropertyNames;
+	var p: string[] = keyFunc(x);
+	begun.set(x, y);
+	return keyFunc(y).every(function (i: string) { return !!~p.indexOf(i); }) &&
+			p.every(function (i: string) { return deepEquals(begun, x[i], y[i], onlyEnumerable); });
 }
 
 /**
@@ -47,7 +51,12 @@ export function copy(src: any, dst?: any): any {
 	begun.set(src, dst);
 	for(let key of Object.getOwnPropertyNames(src)) {
 		let pDescr = Object.getOwnPropertyDescriptor(src, key)!;
-		if(!pDescr.get && !pDescr.set)
+		if(pDescr.get) {
+			let orgGet = pDescr.get;
+			pDescr.get = function() {
+				return deepCopy(begun, orgGet.apply(src));
+			}
+		} else if(!pDescr.get && !pDescr.set)
 			pDescr.value = deepCopy(begun, src[key], dst[key]);
 		Object.defineProperty(dst, key, pDescr)
 

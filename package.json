@@ -1,6 +1,6 @@
 {
 	"name": "js-object-ext",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Provides high-level functionalities on JS objects",
 	"main": "dist/js-object-ext.js",
 	"ts:main": "src/index.ts",
@@ -34,7 +34,8 @@
 		"webpack": "^4.26.1",
 		"webpack-cli": "^3.1.2",
 		"webpack-dts-bundle": "0.0.2",
-		"webpack-node-externals": "^1.7.2"
+		"webpack-node-externals": "^1.7.2",
+		"lodash": ">=4.17.19"
 	},
 	"dependencies": {}
 }
