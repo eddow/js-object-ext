@@ -11,30 +11,32 @@ export interface OldGetter {
 }
 
 /**
- * Calls `cb` before setting the value each time the property `prop` of object `obj` is set.
- * @returns A function without `this` scope that sets the value of `obj[prop]` without calling `cb`
+ * Calls `callback` before setting the value each time the property `prop` of object `obj` is set.
+ * If `callback` returns a value (not `undefined`), this value will be used instead of the given one.
+ * @returns A function without `this` scope that sets the value of `obj[prop]` without calling `callback`
  */
-export function onSet(obj: object, prop: string, cb?: (v: any, scope: object, prop: string)=> boolean|void): OldSetter {
+export function onSet(obj: object, prop: string, callback?: (v: any, scope: object, prop: string)=> boolean|void): OldSetter {
 	var oldDescr: PropertyDescriptor = Object.getOwnPropertyDescriptor(obj, prop) || {
 		value: undefined,
 		writable: true,
 		enumerable: true
-	}, newDescr = Object.create(oldDescr);
+	}, newDescr = Object.assign({configurable: true}, oldDescr),
+		internalValue = oldDescr.value;
 	if(!oldDescr.set) {
 		console.assert(
 			!oldDescr.get && oldDescr.writable,
 			`Property ${prop} is not writable`);
-		newDescr.get = ()=> newDescr.value;
+		newDescr.get = ()=> internalValue;
+			
+		delete newDescr.writable;
+		delete newDescr.value;
 	}
-	var oldSet: OldSetter = Object.assign(oldDescr.set ?
-		(v: any)=> oldDescr.set!.apply(obj, v) :
-		(v: any)=> newDescr.value = v, {
-			callback: cb
-		});
+	var oldSet: OldSetter = Object.assign(oldDescr.set ??
+		((v: any)=> internalValue = v), {callback});
 	newDescr.set = function(v: any) {
-		if(false!== oldSet.callback!.call(this, v, this, prop)) oldSet(v);
+		var compV = oldSet.callback!.call(this, v, this, prop);
+		oldSet('undefined'=== typeof compV ? v : compV);
 	}
-	newDescr.set.original = oldSet;
 	Object.defineProperty(obj, prop, newDescr);
 	return oldSet;
 }
@@ -44,7 +46,7 @@ export function onSet(obj: object, prop: string, cb?: (v: any, scope: object, pr
  */
 export function cuff(objA: object, propA: string, objB: object, propB: string): void {
 	var oldSetA = onSet(objA, propA),
-		oldSetB = onSet(objA, propA, oldSetA);
+		oldSetB = onSet(objB, propB, oldSetA);
 	oldSetA.callback = oldSetB;
 }
 
@@ -56,33 +58,34 @@ export function follow(objFr: {[prop: string]: any}, propFr: string, objFd: {[pr
 }
 
 /**
- * Calls `cb` after getting the value each time the property `prop` of object `obj` is retrieved.
- * If `cb` returns a defined value, this value is returned instead of the originally retrieved value.
- * @returns A function without `this` scope that sets the value of `obj[prop]` without calling `cb`
+ * Calls `callback` after getting the value each time the property `prop` of object `obj` is retrieved.
+ * If `callback` returns a defined value, this value is returned instead of the originally retrieved value.
+ * @returns A function without `this` scope that sets the value of `obj[prop]` without calling `callback`
  */
-export function onGet(obj: object, prop: string, cb?: (v: any, scope: object, prop: string)=> any): OldGetter {
+export function onGet(obj: object, prop: string, callback?: (v: any, scope: object, prop: string)=> any): OldGetter {
 	var oldDescr = Object.getOwnPropertyDescriptor(obj, prop) || {
 		value: undefined,
 		writable: true,
 		enumerable: true
-	}, newDescr = Object.create(oldDescr);
+	}, newDescr = Object.assign({configurable: true}, oldDescr),
+		internalValue = oldDescr.value;
 	if(!oldDescr.get) {
 		console.assert(
 			!oldDescr.set,
 			`Inspecting property set for ${prop} would make it readible`)
-		newDescr.set = (v: any)=> newDescr.value = v;
+		if(oldDescr.writable)
+			newDescr.set = (v: any)=> internalValue = v;
+			
+		delete newDescr.writable;
+		delete newDescr.value;
 	}
-	var oldGet: OldGetter = Object.assign(oldDescr.get ?
-		()=> oldDescr.get!.apply(obj) :
-		()=> newDescr.value, {
-			callback: cb
-		});
+	var oldGet: OldGetter = Object.assign(oldDescr.get ??
+		(()=> internalValue), {callback});
 	newDescr.get = function() {
-		var v = oldGet(),
-			rv = oldGet.callback!.call(this, v, this, prop);
-		return undefined!== rv ? rv : v;
+		var v = oldGet();
+		if(!oldGet.callback) return v;
+		return oldGet.callback.call(this, v, this, prop);
 	}
-	newDescr.get.original = oldGet;
 	Object.defineProperty(obj, prop, newDescr);
 	return oldGet;
 }

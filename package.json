@@ -10,8 +10,8 @@
 	"sideEffects": false,
 	"scripts": {
 		"tsc": "tsc-bundle src/tsconfig.json --outFile dist/index.js",
-		"prepack": "webpack",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"prepack": "jest --coverage false && npm run tsc",
+		"test": "jest"
 	},
 	"author": "fmdm",
 	"license": "ISC",
@@ -24,15 +24,18 @@
 	},
 	"homepage": "https://github.com/eddow/js-object-ext#readme",
 	"devDependencies": {
+		"@types/jest": "^26.0.13",
 		"@types/node": "^14.10.1",
+		"jest": "^26.4.2",
 		"jsdoc-babel": "^0.4.0-alpha.0",
 		"lodash": ">=4.17.19",
 		"source-map-loader": "^0.2.4",
+		"ts-jest": "^26.3.0",
 		"ts-loader": "^5.3.1",
 		"typedoc": "^0.13.0",
 		"typedoc-plugin-external-module-name": "^1.1.3",
 		"typedoc-webpack-plugin": "^1.1.4",
-		"typescript": "^3.2.2",
+		"typescript": "^4.0.2",
 		"typescript-bundle": "^1.0.16",
 		"webpack": "^4.26.1",
 		"webpack-cli": "^3.1.2",

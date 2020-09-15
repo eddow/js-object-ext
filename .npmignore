@@ -5,3 +5,5 @@ docs
 .vscode
 package-lock.*
 .gitignore
+coverage
+*.config.*

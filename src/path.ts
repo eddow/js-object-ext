@@ -4,44 +4,45 @@
 /**
  * Thrown when a path is not reachable - when the containing object does not exists.
  */
-export class InvalidPath extends Error {}
+export class InvalidPath extends Error {
+    constructor(path: string) {
+        super(`Invalid path: '${path}'`);
+        // Set the prototype explicitly.
+        Object.setPrototypeOf(this, InvalidPath.prototype);
+    }
+}
 
 /** @hidden */
 function recur(obj: any, path: string): any {
-	if(!obj || !path) return;
 	var keys = [], lvalue;
 	for(let key of path.split('.')) {
-		let subs = /^(.*?)(\[.*\])?$/.exec(key);
+		let subs = /^(.*?)(?:\[(.*)\])?$/.exec(key);
 		keys.push(subs![1]);
 		if(subs![2]) keys.push(...subs![2].split(']['));
 	}
 	lvalue = keys.pop();
-	for(let key of keys) if(!(obj = obj[key])) throw new InvalidPath;
+	for(let key of keys)
+		if(!(obj = obj[key]))
+			throw new InvalidPath(path);
 	return {obj, key: lvalue};
 }
 
 /**
  * Set a value of an object considering its path
  * @throw InvalidPath
- * @return `true` in case of successful affectation
  */
-export function set(obj: any, path: string, value: any): boolean {
+export function set(obj: any, path: string, value: any) {
 	var lv = recur(obj, path);
-	if(!lv) return false;
 	lv.obj[lv.key] = value;
-	return true;
 }
 
 /**
  * Delete a value of an object considering its path
  * @throw InvalidPath
- * @return `true` in case of successful deletion
  */
-export function del(obj: any, path: string): boolean {
+export function del(obj: any, path: string) {
 	var lv = recur(obj, path);
-	if(!lv) return false;
 	delete lv.obj[lv.key];
-	return true;
 }
 
 /**
@@ -51,5 +52,5 @@ export function del(obj: any, path: string): boolean {
  */
 export function get(obj: any, path: string): any {
 	var lv = recur(obj, path);
-	return lv && lv.obj[lv.key];
+	return lv.obj[lv.key];
 }

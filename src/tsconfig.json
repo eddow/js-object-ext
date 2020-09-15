@@ -20,7 +20,7 @@
 		"baseUrl": "."
 	},
 	"exclude": [
-		"**/*.spec.ts",
+		"**/*.test.ts",
 		"**/*.d.ts"
 	],
 	"include": [

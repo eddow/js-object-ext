@@ -1,0 +1,7 @@
+{
+	"name": "js-object-ext",
+	"collectCoverage": true,
+	"coverageDirectory": "./coverage",
+	"preset": "ts-jest",
+	"testEnvironment": "node"
+  }
