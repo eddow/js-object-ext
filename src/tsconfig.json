@@ -12,7 +12,6 @@
 		"emitDecoratorMetadata": true,
 		"target": "es5",
 		"lib": [
-			"dom",
 			"es5",
 			"es6",
 			"es2015.promise"
