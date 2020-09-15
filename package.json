@@ -1,11 +1,11 @@
 {
 	"name": "js-object-ext",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Provides high-level functionalities on JS objects",
-	"main": "dist/js-object-ext.js",
+	"main": "dist/index.js",
 	"ts:main": "src/index.ts",
 	"typescript": {
-		"definition": "dist/js-object-ext.d.ts"
+		"definition": "dist/index.d.ts"
 	},
 	"sideEffects": false,
 	"scripts": {
