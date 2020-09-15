@@ -1,27 +1,24 @@
-var webpack = require("webpack"),
-	path = require("path"),
-	externals = require('webpack-node-externals'),
+const path = require('path'),
+	//TODO importing 'typedoc-webpack-plugin' raises a lot of warnings
 	typedoc = require('typedoc-webpack-plugin'),
 	{default: DtsBundlePlugin} = require('webpack-dts-bundle');
-
 module.exports = {
-	mode: 'development',	//This is meant to be bundled afterward anyway
 	context: path.resolve(__dirname, 'src'),
-	entry: {
-		'js-object-ext': ['./index.ts'],
-	},
+	entry: "./index.ts",
+	mode: "development",
 	output: {
-		filename: '[name].js',
-		path: path.resolve(__dirname, "dist"),
-		libraryTarget: 'umd',
-		library: 'js-object-ext',
-		umdNamedDefine: true
+		filename: "index.js",
+		libraryTarget: "commonjs",
+		path: path.resolve(__dirname, 'dist')
+	},
+	resolve: {
+		extensions: [".ts", ".js"]
 	},
 	plugins: [
 		new DtsBundlePlugin({
 			name: 'js-object-ext',
 			main: 'dist/index.d.ts',
-			out: 'js-object-ext.d.ts',
+			out: 'index.d.ts',
 			removeSource: true
 		}),
 		new typedoc({
@@ -33,23 +30,7 @@ module.exports = {
 			includeDeclarations: true
 		}, './src')
 	],
-	externals: [
-		externals()
-	],
-	devtool: 'source-map',
 	module: {
-		rules: [{
-			test: /\.ts$/,
-			exclude: /node_modules/,
-			loader: 'ts-loader'
-		}, {
-			enforce: 'pre',
-			test: /\.ts$/,
-			exclude: /node_modules/,
-			use: "source-map-loader"
-		}]
-	},
-	resolve: {
-		extensions: [".ts", ".js"]
+		rules: [{ test: /\.ts$/, loader: "ts-loader" }]
 	}
-};
+}

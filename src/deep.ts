@@ -37,8 +37,8 @@ export function copy(src: any, dst?: any): any {
 	return deepCopy(new Map(), src, dst);
 }
  function deepCopy(begun: Map<any, any>, src: any, dst?: any): any {
-	 if('object'!== typeof src) return src;
-	 if(begun.has(src)) return begun.get(src);
+	if('object'!== typeof src) return src;
+	if(begun.has(src)) return begun.get(src);
 	if(src instanceof Array) {
 		if(!(dst instanceof Array)) dst = [];
 		begun.set(src, dst);

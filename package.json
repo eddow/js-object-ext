@@ -1,6 +1,6 @@
 {
 	"name": "js-object-ext",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Provides high-level functionalities on JS objects",
 	"main": "dist/js-object-ext.js",
 	"ts:main": "src/index.ts",
@@ -9,8 +9,8 @@
 	},
 	"sideEffects": false,
 	"scripts": {
-		"tsc": "tsc-bundle src/tsconfig.json --outFile dist/index.js",
-		"prepack": "jest --coverage false && npm run tsc",
+		"start": "webpack --watch",
+		"prepack": "jest --coverage false && webpack",
 		"test": "jest"
 	},
 	"author": "fmdm",
@@ -27,7 +27,7 @@
 		"@types/jest": "^26.0.13",
 		"@types/node": "^14.10.1",
 		"jest": "^26.4.2",
-		"jsdoc-babel": "^0.4.0-alpha.0",
+		"jsdoc-babel": "^0.5.0",
 		"lodash": ">=4.17.19",
 		"source-map-loader": "^0.2.4",
 		"ts-jest": "^26.3.0",

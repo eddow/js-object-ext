@@ -12,15 +12,24 @@ export class InvalidPath extends Error {
     }
 }
 
-/** @hidden */
-function recur(obj: any, path: string): any {
-	var keys = [], lvalue;
+/**
+ * Get the elements of a path like `a.b[1].x` -> [a, b, 1, x]
+ * @throw InvalidPath
+ */
+export function pathed(path: string): string[] {
+	var keys: string[] = [];
 	for(let key of path.split('.')) {
 		let subs = /^(.*?)(?:\[(.*)\])?$/.exec(key);
 		keys.push(subs![1]);
 		if(subs![2]) keys.push(...subs![2].split(']['));
 	}
-	lvalue = keys.pop();
+	return keys;
+}
+
+/** @hidden */
+function recur(obj: any, path: string): any {
+	var keys = pathed(path),
+		lvalue = keys.pop();
 	for(let key of keys)
 		if(!(obj = obj[key]))
 			throw new InvalidPath(path);

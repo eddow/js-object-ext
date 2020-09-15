@@ -7,3 +7,4 @@ package-lock.*
 .gitignore
 coverage
 *.config.*
+*.test.*

@@ -15,7 +15,7 @@ test('path.get', () => {
   	expect(()=> get(tob, 'x.y')).toThrow(InvalidPath);
 });
 
-test('path.get - index', () => {
+test('path.pathed', () => {
 	var tob = {a: {b: [12, 34, 56]}};
 	
   	expect(get(tob, 'a.b[1]')).toBe(34);

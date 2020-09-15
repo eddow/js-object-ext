@@ -1,35 +1,35 @@
 import { OldSetter, OldGetter, onSet, onGet, cuff, follow } from './cuff';
 
 interface testObj {
-	A?: any
-	B?: any
+	a?: any
+	b?: any
 }
 
 test('cuff.onGet - value', () => {	
-	var tob: testObj = { A: 42 },
+	var tob: testObj = { a: 42 },
 		getter = jest.fn(x=> x+10),
-		expArgs = [42, tob, 'A'];
+		expArgs = [42, tob, 'a'];
 
-	onGet(tob, 'A', getter);
-  	expect(tob.A).toBe(52);
+	onGet(tob, 'a', getter);
+  	expect(tob.a).toBe(52);
 	
 	expect(getter.mock.calls.length).toBe(1);
 	expect(getter.mock.calls[0].every((v, i)=> v === expArgs[i])).toBe(true);
 
-	tob.A = 30;
-  	expect(tob.A).toBe(40);
+	tob.a = 30;
+  	expect(tob.a).toBe(40);
 });
 
 test('cuff.onGet - getter', () => {	
-	var tob: testObj = { get A() { return 42; } },
+	var tob: testObj = { get a() { return 42; } },
 		getter = jest.fn(x=> x+10),
-		expArgs = [42, tob, 'A'],
+		expArgs = [42, tob, 'a'],
 		oldGet: OldGetter;
 
-	oldGet = onGet(tob, 'A');
-  	expect(tob.A).toBe(42);
+	oldGet = onGet(tob, 'a');
+  	expect(tob.a).toBe(42);
 	oldGet.callback = getter;
-  	expect(tob.A).toBe(52);
+  	expect(tob.a).toBe(52);
 	
 	expect(getter.mock.calls.length).toBe(1);
 	expect(getter.mock.calls[0].every((v, i)=> v === expArgs[i])).toBe(true);
@@ -39,11 +39,11 @@ test('cuff.onGet - getter', () => {
 test('cuff.onSet - value', () => {	
 	var tob: testObj = {},
 		setter = jest.fn(x=> x+10),
-		expArgs = [42, tob, 'A'];
+		expArgs = [42, tob, 'a'];
 
-	onSet(tob, 'A', setter);
-	tob.A = 42;
-  	expect(tob.A).toBe(52);
+	onSet(tob, 'a', setter);
+	tob.a = 42;
+  	expect(tob.a).toBe(52);
 	
 	expect(setter.mock.calls.length).toBe(1);
 	expect(setter.mock.calls[0].every((v, i)=> v === expArgs[i])).toBe(true);
@@ -52,18 +52,18 @@ test('cuff.onSet - value', () => {
 test('cuff.onSet - setter', () => {	
 	var internal: any = 59,
 		tob: testObj = {
-			get A() { return internal; },
-			set A(v: any) { internal = v; }
+			get a() { return internal; },
+			set a(v: any) { internal = v; }
 		},
 		setter = jest.fn(x=> x+10),
-		expArgs = [42, tob, 'A'],
+		expArgs = [42, tob, 'a'],
 		oldSet: OldSetter;
 
-	oldSet = onSet(tob, 'A');
-  	expect(tob.A).toBe(59);
+	oldSet = onSet(tob, 'a');
+  	expect(tob.a).toBe(59);
 	oldSet.callback = setter;
-	tob.A = 42;
-  	expect(tob.A).toBe(52);
+	tob.a = 42;
+  	expect(tob.a).toBe(52);
 	
 	expect(setter.mock.calls.length).toBe(1);
 	expect(setter.mock.calls[0].every((v, i)=> v === expArgs[i])).toBe(true);
@@ -71,19 +71,19 @@ test('cuff.onSet - setter', () => {
 });
 
 test('cuff.follow', () => {	
-	var tob: testObj = {A: {}, B: {}};
+	var tob: testObj = {a: {}, b: {}};
 	
-	follow(tob.A, 'x', tob.B, 'y');
-	tob.B.y = 59;
-  	expect(tob.A.x).toBe(59);
+	follow(tob.a, 'x', tob.b, 'y');
+	tob.b.y = 59;
+  	expect(tob.a.x).toBe(59);
 });
 
 test('cuff.cuff', () => {	
-	var tob: testObj = {A: {}, B: {}};
+	var tob: testObj = {a: {}, b: {}};
 	
-	cuff(tob.A, 'x', tob.B, 'y');
-	tob.B.y = 59;
-  	expect(tob.A.x).toBe(59);
-	tob.A.x = 62;
-  	expect(tob.B.y).toBe(62);
+	cuff(tob.a, 'x', tob.b, 'y');
+	tob.b.y = 59;
+  	expect(tob.a.x).toBe(59);
+	tob.a.x = 62;
+  	expect(tob.b.y).toBe(62);
 });
